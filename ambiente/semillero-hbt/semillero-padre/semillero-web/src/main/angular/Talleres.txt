@@ -1,0 +1,6 @@
+Ejercicio
+1) Crear un componente e imprimir en pantalla el nombre y ciudad de cada uno, 
+   el componente debe aparecer arriba de la imagen de bienvenida.
+   Nota adicional investigación: Con una variable tipo string, asignarle el valor 
+        de su nombre y ciudad concatenados (Diego Fernando alvarez silva - Tunja)  
+        e imprimir esa variable en el html.
