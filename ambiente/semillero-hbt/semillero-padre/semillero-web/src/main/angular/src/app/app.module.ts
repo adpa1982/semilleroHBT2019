@@ -13,6 +13,7 @@ import { BienvenidaComponent } from './semillero/componentes/home/bienvenida-com
 import { CrearPersonaComponent } from './semillero/componentes/crearPersona/crear-persona-component';
 import { GestionarComicComponent } from './semillero/componentes/gestionarComic/gestionar-comic';
 import { MensajeBienvenidaComponent } from './semillero/componentes/mensajeBienvenida/mensaje-bienvenida-component';
+import { DatosAlumnoComponent } from './semillero/componentes/datosAlumno/datos-alumno-component';
 
 // DTOs
 export { ComicDTO } from './semillero/dto/comic.dto';
@@ -24,6 +25,7 @@ import {EjemploService} from './semillero/services/ejemplo.service';
 import {AbstractService} from './semillero/services/template.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +33,8 @@ import {AbstractService} from './semillero/services/template.service';
     BienvenidaComponent,
     CrearPersonaComponent,
     GestionarComicComponent,
-    MensajeBienvenidaComponent
+    MensajeBienvenidaComponent,
+    DatosAlumnoComponent
   ],
   imports: [
     BrowserModule,
