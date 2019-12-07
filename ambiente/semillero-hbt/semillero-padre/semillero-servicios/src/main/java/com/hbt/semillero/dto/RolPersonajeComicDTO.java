@@ -6,20 +6,15 @@ package com.hbt.semillero.dto;
 import java.io.Serializable;
 
 /**
- * <b>Descripción:<b> Clase que determina el dto a usar para modificar, consultar y posteriormente eliminar un comic
- * 
- * @author ccastano
- */
-/**
  * 
  * @description Clase que determina el dto a usar para modificar, consultar y
- *              posteriormente eliminar un personaje de un comic
+ *              posteriormente eliminar un rol de personaje de un comic
  *
  * @author Alberto Puche Algarin
  * 
  * @fecha 2019-12-07
  */
-public class PersonajeComicDTO implements Serializable {
+public class RolPersonajeComicDTO implements Serializable {
 
 	/**
 	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
@@ -32,9 +27,7 @@ public class PersonajeComicDTO implements Serializable {
 	private Long id;
 	private String nombre;
 	private String estado;
-	private String superpoder;
-	private Long idComic;
-	private Long idRol;
+
 
 	/**
 	 * Metodo encargado de retornar el valor del atributo id
@@ -90,59 +83,6 @@ public class PersonajeComicDTO implements Serializable {
 		this.estado = estado;
 	}
 
-	/**
-	 * Metodo encargado de retornar el valor del atributo superpoder
-	 * 
-	 * @return El superpoder asociado a la clase
-	 */
-	public String getSuperpoder() {
-		return superpoder;
-	}
-
-	/**
-	 * Metodo encargado de modificar el valor del atributo superpoder
-	 * 
-	 * @param superpoder El nuevo superpoder a modificar.
-	 */
-	public void setSuperpoder(String superpoder) {
-		this.superpoder = superpoder;
-	}
-
-	/**
-	 * Metodo encargado de retornar el valor del atributo idComic
-	 * 
-	 * @return El idComic asociado a la clase
-	 */
-	public Long getIdComic() {
-		return idComic;
-	}
-
-	/**
-	 * Metodo encargado de modificar el valor del atributo idComic
-	 * 
-	 * @param idComic El nuevo idComic a modificar.
-	 */
-	public void setIdComic(Long idComic) {
-		this.idComic = idComic;
-	}
-
-	/**
-	 * Metodo encargado de retornar el valor del atributo idRol
-	 * 
-	 * @return El idRol asociado a la clase
-	 */
-	public Long getIdRol() {
-		return idRol;
-	}
-
-	/**
-	 * Metodo encargado de modificar el valor del atributo idRol
-	 * 
-	 * @param nombre El nuevo idRol a modificar.
-	 */
-	public void setIdRol(Long idRol) {
-		this.idRol = idRol;
-	}
 
 	/**
 	 * Método encargado de convertir los datos recibidos en JSON al tipo PersonajeComicDTO.
@@ -151,8 +91,8 @@ public class PersonajeComicDTO implements Serializable {
 	 * @param arg Cadena que representa el objeto complejo JSON.
 	 * @return Instancia con los datos recibidos.
 	 */
-	public static PersonajeComicDTO valueOf(String arg) {
-		return JsonUtils.valueOf(arg, PersonajeComicDTO.class);
+	public static RolPersonajeComicDTO valueOf(String arg) {
+		return JsonUtils.valueOf(arg, RolPersonajeComicDTO.class);
 	}
 
 	/**
@@ -167,5 +107,4 @@ public class PersonajeComicDTO implements Serializable {
 	public String toString() {
 		return JsonUtils.toStringJson(this);
 	}
-
 }

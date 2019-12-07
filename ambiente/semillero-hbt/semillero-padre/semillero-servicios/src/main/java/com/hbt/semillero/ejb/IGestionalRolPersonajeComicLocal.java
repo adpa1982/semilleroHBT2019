@@ -1,24 +1,29 @@
+/**
+ * 
+ */
 package com.hbt.semillero.ejb;
 
 import java.util.List;
 
 import javax.ejb.Local;
 
-import com.hbt.semillero.dto.PersonajeComicDTO;
+import com.hbt.semillero.dto.RolPersonajeComicDTO;
+
+
 
 /**
  * 
- * @description Expone los métodos del EJB GestionarPersonajeComic Las interfaces determinan una
+ * @description Expone los métodos del EJB RolPersonajeComic Las interfaces determinan una
  * especie de contrato donde se define las firmas de los metodos, define que se
  * necesita implementar pero no el como eso lo realiza la clase que la
  * implementa Palabras claves interface e implements
  *
  * @author Alberto Puche Algarin
  *  
- * @fecha 2019-12-05
+ * @fecha 2019-12-07
  */
 @Local
-public interface IGestionarPersonajeComicLocal {
+public interface IGestionalRolPersonajeComicLocal {
 	
 	/**
 	 *
@@ -30,7 +35,7 @@ public interface IGestionarPersonajeComicLocal {
 	 *
 	 * @param personajeComicNuevo informacion nueva a crear
 	 */
-	public void crearPersonajeComic(PersonajeComicDTO personajeComicDTO);
+	public abstract void crearRolPersonajeComic(RolPersonajeComicDTO rolPersonajeComicDTO);
 
 	/**
 	 *
@@ -42,7 +47,7 @@ public interface IGestionarPersonajeComicLocal {
 	 *
 	 * @param personajeComicModificar informacion nueva a modificar
 	 */
-	public void modificarPersonajeComic(Long id, String nombre, PersonajeComicDTO personajeComicDTO);
+	public void modificarRolPersonajeComic(Long id, String nombre, RolPersonajeComicDTO rolPersonajeComicDTO);
 
 	/**
 	 *
@@ -54,7 +59,7 @@ public interface IGestionarPersonajeComicLocal {
 	 *
 	 * @param personajeComicEliminar informacion a eliminar
 	 */
-	public void eliminarPersonajeComic(Long id);
+	public void eliminarRolPersonajeComic(Long id);
 
 	/**
 	 *
@@ -68,7 +73,7 @@ public interface IGestionarPersonajeComicLocal {
 	 * @return personajeComic Resultado de la consulta
 	 * @throws Exception si no se recibe id
 	 */
-	public PersonajeComicDTO consultarPersonajeComic(Long id);
+	public RolPersonajeComicDTO consultarRolPersonajeComic(Long id);
 
 	/**
 	 *
@@ -80,19 +85,8 @@ public interface IGestionarPersonajeComicLocal {
 	 *
 	 * @return
 	 */
-	public List<PersonajeComicDTO> consultarPersonajesComics();
+	public List<RolPersonajeComicDTO> consultarRolPersonajesComics();
 	
-	/**
-	 *
-	 * @description Metodo encargado de retornar una lista de Personajes de comics
-	 *
-	 * @author Alberto Puche Algarin
-	 *
-	 * @fecha 2019-12-05
-	 *
-	 * @return
-	 */
-	public List<PersonajeComicDTO> consultarPersonajesComics(Long idComic);
-
+	
 
 }
