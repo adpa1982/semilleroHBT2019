@@ -175,9 +175,6 @@ public class GestionarPersonajeComicBean implements IGestionarPersonajeComicLoca
 		// TODO Auto-generated method stub
 		logger.debug("Se Ejecuta el metodo consultar todos los personajes de un comic por idComic");
 
-		/*
-		 * Convierte un PersonajeComic a PersonajeComicDTO
-		 */
 		List<PersonajeComicDTO> listarPersonajesComicsDTO = new ArrayList<PersonajeComicDTO>();
 
 		String query = "SELECT personajeComic FROM PersonajeComic personajeComic WHERE personajeComic.comic.id = :idComic";

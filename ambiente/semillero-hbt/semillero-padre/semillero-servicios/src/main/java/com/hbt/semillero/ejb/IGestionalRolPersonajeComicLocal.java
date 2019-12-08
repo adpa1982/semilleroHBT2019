@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.RolPersonajeComicDTO;
 
 

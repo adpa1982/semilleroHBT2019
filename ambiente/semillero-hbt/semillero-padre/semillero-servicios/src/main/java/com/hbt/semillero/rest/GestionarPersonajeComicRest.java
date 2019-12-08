@@ -3,10 +3,10 @@
  */
 package com.hbt.semillero.rest;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -49,11 +49,8 @@ public class GestionarPersonajeComicRest {
 	 */
 	@POST
 	@Path("/crear")
-	/*
-	 * @Produces(MediaType.APPLICATION_JSON)
-	 * 
-	 * @Consumes(MediaType.APPLICATION_JSON)
-	 */
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public void crearPersonajeComic(PersonajeComicDTO personajeComicDTO) {
 		gestionarPersonajeComicEJB.crearPersonajeComic(personajeComicDTO);
 	}
@@ -61,6 +58,7 @@ public class GestionarPersonajeComicRest {
 	/**
 	 * 
 	 * @description Metodo encargado de consultar los personajes de comic
+	 * http://localhost:8085/semillero-servicios/rest/GestionarPersonajeComic/consultar
 	 * 
 	 * @author Puche_Algarin
 	 * 
@@ -70,7 +68,7 @@ public class GestionarPersonajeComicRest {
 	 */
 	@GET
 	@Path("/consultar")
-	// @Produces(MediaType.APPLICATION_JSON)
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public List<PersonajeComicDTO> consultarPersonajesComics() {
 		return gestionarPersonajeComicEJB.consultarPersonajesComics();
 	}
@@ -78,6 +76,7 @@ public class GestionarPersonajeComicRest {
 	/**
 	 * 
 	 * @description Metodo encargado de consultar los personajes de comic
+	 *              http://localhost:8085/semillero-servicios/rest/GestionarPersonajeComic/consultar/comic?idComic=1
 	 * 
 	 * @author Puche_Algarin
 	 * 
@@ -86,8 +85,8 @@ public class GestionarPersonajeComicRest {
 	 * @return
 	 */
 	@GET
-	@Path("/consultars")
-	// @Produces(MediaType.APPLICATION_JSON)
+	@Path("/consultar/comic")
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public List<PersonajeComicDTO> consultarPersonajesComics(@QueryParam("idComic") Long idComic) {
 		return gestionarPersonajeComicEJB.consultarPersonajesComics(idComic);
 	}

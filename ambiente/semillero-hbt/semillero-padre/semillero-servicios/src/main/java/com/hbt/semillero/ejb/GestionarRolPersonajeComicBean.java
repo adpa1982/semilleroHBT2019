@@ -13,7 +13,11 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
+import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.PersonajeComicDTO;
 import com.hbt.semillero.dto.RolPersonajeComicDTO;
+import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.PersonajeComic;
 import com.hbt.semillero.entidad.RolPersonajeComic;
 
 /**
@@ -115,10 +119,16 @@ public class GestionarRolPersonajeComicBean implements IGestionalRolPersonajeCom
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public RolPersonajeComicDTO consultarRolPersonajeComic(Long id) {
 		// TODO Auto-generated method stub
-		logger.debug("Se Ejecuta el metodo consultar personaje comic");
-		logger.debug("Finaliza el metodo consultar personaje comic");
-		return null;
-	}
+		logger.debug("Se Ejecuta el metodo consultar rol personaje comic");
+		
+		RolPersonajeComic rolPersonajeComic = null;
+		rolPersonajeComic = new RolPersonajeComic();
+		rolPersonajeComic = entityManager.find(RolPersonajeComic.class, id);
+		RolPersonajeComicDTO rolPersonajeComicDTO = convertirEntidadDTO(rolPersonajeComic);
+		
+		logger.debug("Finaliza el metodo consultar rol personaje comic");
+		return rolPersonajeComicDTO;
+	}	
 
 	/**
 	 *

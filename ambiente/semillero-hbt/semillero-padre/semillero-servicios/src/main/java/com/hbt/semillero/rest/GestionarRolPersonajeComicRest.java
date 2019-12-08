@@ -1,14 +1,22 @@
 package com.hbt.semillero.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
+import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.PersonajeComicDTO;
 import com.hbt.semillero.dto.RolPersonajeComicDTO;
 import com.hbt.semillero.ejb.IGestionalRolPersonajeComicLocal;
+import com.hbt.semillero.entidad.PersonajeComic;
 
 /**
  * 
@@ -44,13 +52,29 @@ public class GestionarRolPersonajeComicRest {
 	 */
 	@POST
 	@Path("/crear")
-	/*
-	 * @Produces(MediaType.APPLICATION_JSON)
-	 * 
-	 * @Consumes(MediaType.APPLICATION_JSON)
-	 */
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public void crearPersonajeComic(RolPersonajeComicDTO rolPersonajeComicDTO) {
 		gestionarRolPersonajeComicEJB.crearRolPersonajeComic(rolPersonajeComicDTO);
+	}
+	
+	/**
+	 * 
+	 * Metodo encargado de traer la informacion de un rolpersonajecomic determiando
+	 * http://localhost:8085/semillero-servicios/rest/GestionarRolPersonajeComic/consultarrol?id=1
+	 * 
+	 * @param idComic
+	 * @return
+	 */
+	@GET
+	@Path("/consultarrol")
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	public RolPersonajeComicDTO consultarRolPersonajeComic(@QueryParam("id") Long id) {
+		if (id != null) {
+			RolPersonajeComicDTO rolPersonajeComicDTO = gestionarRolPersonajeComicEJB.consultarRolPersonajeComic(id);
+			return rolPersonajeComicDTO;
+		}
+		return null;
 	}
 
 	/**
@@ -65,7 +89,8 @@ public class GestionarRolPersonajeComicRest {
 	 */
 	@GET
 	@Path("/consultar")
-	// @Produces(MediaType.APPLICATION_JSON)
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public List<RolPersonajeComicDTO> consultarRolPersonajesComics() {
 		return gestionarRolPersonajeComicEJB.consultarRolPersonajesComics();
 	}
