@@ -19,14 +19,14 @@ export class BienvenidaComponent implements OnInit {
   public comicDTO: ComicDTO;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private ejemploService: EjemploService) {
-    console.log('entro al constructor del componente bienvenida');
+    // console.log('entro al constructor del componente bienvenida');
   }
 
   ngOnInit(): void {
     this.urlImagen = 'https://www.elempleo.com/sitios-empresariales/colombia/heinsohn-business-technology/img/elempleo-02.jpg';
     let data = this.activatedRoute.snapshot.params;
 
-    console.log('Parametros recibidos ' + data);
+    // console.log('Parametros recibidos ' + data);
 
     this.ejemploService.consultarComics().subscribe(respuesta => {
       console.log(respuesta);
@@ -46,9 +46,11 @@ export class BienvenidaComponent implements OnInit {
     this.comicDTO.autores = 'cindyDiego';
     this.comicDTO.color = true;
 
+    // console.log(this.comicDTO);
+
 
     this.ejemploService.crearComic(this.comicDTO).subscribe(respuesta => {
-      console.log(respuesta);
+      console.log('respuesta' + respuesta);
     });
   }
 

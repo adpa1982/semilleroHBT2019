@@ -65,5 +65,4 @@ export class ComicDTO {
     */
     public cantidad: number;
 
-  
 }

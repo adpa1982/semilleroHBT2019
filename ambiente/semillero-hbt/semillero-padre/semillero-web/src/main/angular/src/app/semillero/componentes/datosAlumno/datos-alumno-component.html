@@ -8,7 +8,68 @@
 <br />
 <label>Datos desde el .ts </label>
 <h4 class="blue"> 
-    <label>Nombre completo: </label> {{ nombres }}  {{ apellidos }} 
+    <label>Nombre completo: </label> {{ nombres + ' ' + apellidos }} 
     <label> &nbsp; | &nbsp; </label>
     <label>Ciudad: </label> {{ ciudad }}
 </h4>
+
+<br /><br /><br />
+<label>Datos original </label>
+<div class="alert alert-secondary" role="alert">
+    {{ listArrayDatos1 }}
+</div>
+<br /> <hr />
+<label>Datos con item eliminado </label>
+<div class="alert alert-dark" role="alert">
+    {{ listArrayDatos }}
+</div>
+
+<br /><br />
+
+<!--<ul>
+    <li *ngFor="let arrayDato of arrayDatos">
+      {{ arrayDato.id }}
+      {{ arrayDato.nombre }}
+      {{ arrayDato.editorial }}
+    </li>
+</ul>-->
+
+<button (click) = "eliminar($event)" class="btn btn-danger">Eliminar</button><br />
+
+<div class="div-mensaje" *ngIf="verMensaje">
+    {{mensaje}}
+</div>
+<br />
+
+<table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+          <th>#</th>
+          <th>id</th>
+          <th>nombre</th>
+          <th>editorial</th>
+          <th>tematica</th>
+          <th>numeroPaginas</th>
+          <th>precio</th>
+          <th>autores</th>
+          <th>aColor</th>
+          <th>fechaVenta</th>
+          <th>estado</th>
+        </tr>
+    </thead>    
+    <tbody>
+      <tr *ngFor="let arrayDato of arrayDatos; let i = index; ">
+          <td>{{ i+1 }}</td>
+          <td>{{ arrayDato.id }}</td>
+          <td>{{ arrayDato.nombre }}</td>
+          <td>{{ arrayDato.editorial }}</td>
+          <td>{{ arrayDato.tematica }}</td>
+          <td>{{ arrayDato.numeroPaginas }}</td>
+          <td>{{ arrayDato.precio }}</td>
+          <td>{{ arrayDato.autores }}</td>
+          <td>{{ arrayDato.aColor }}</td>
+          <td>{{ arrayDato.fechaVenta }}</td>
+          <td>{{ arrayDato.estado }}</td>
+      </tr>      
+    </tbody>
+  </table>

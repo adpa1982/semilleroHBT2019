@@ -26,8 +26,8 @@ export class CrearPersonaComponent implements OnInit {
 
         let nombreInstructor = 'Diego Alvarez';
         let nombreInstructorString: string = 'Diego Alvarez string';
-        console.log('nombreInstructor: ' + nombreInstructor);
-        console.log('nombreInstructorString: ' + nombreInstructorString);
+        // console.log('nombreInstructor: ' + nombreInstructor);
+        // console.log('nombreInstructorString: ' + nombreInstructorString);
 
         let miVarible: any = {
             id : 1,
@@ -59,15 +59,15 @@ export class CrearPersonaComponent implements OnInit {
         let lista = this.listaApellidos;
         for (let i = 0; i < lista.length; i++) {
             const element = lista[i];
-            console.log(element);
+            // console.log(element);
         }
 
         lista.forEach(element => {
-            console.log(element);
+            // console.log(element);
         });
 
         lista.map(objeto => {
-            console.log(objeto);
+            // console.log(objeto);
         });
 
 
@@ -77,9 +77,9 @@ export class CrearPersonaComponent implements OnInit {
         let retorno: any;
         let objeto = undefined;
         if (objeto !== null && objeto !== undefined ) {
-            console.log('No es nulo');
+            // console.log('No es nulo');
         } else {
-            console.log('Si es nulo');
+            // console.log('Si es nulo');
         }
 
         console.log(1 === 1);
@@ -90,7 +90,7 @@ export class CrearPersonaComponent implements OnInit {
         this.comicDTO = new ComicDTO();
         this.comicDTO.autores = 'Pablito';
         this.comicDTO.fechaVenta = new Date();
-        console.log(this.comicDTO.autores);
+        // console.log(this.comicDTO.autores);
 
         return retorno;
     }

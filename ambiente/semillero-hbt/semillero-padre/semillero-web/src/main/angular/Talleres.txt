@@ -1,5 +1,5 @@
 Ejecutar el proyecto
-cdm D:\Proyectos\semilleroHBT2019\ambiente\semillero-hbt\semillero-padre\semillero-web: ng serve
+cdm D:\Proyectos\semilleroHBT2019\ambiente\semillero-hbt\semillero-padre\semillero-web\main\angular: ng serve
 
 Ejercicio
 1) Crear un componente e imprimir en pantalla el nombre y ciudad de cada uno, 
