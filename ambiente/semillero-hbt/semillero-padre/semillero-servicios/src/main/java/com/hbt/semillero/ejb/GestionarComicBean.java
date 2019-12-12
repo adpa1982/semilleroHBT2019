@@ -3,6 +3,8 @@
  */
 package com.hbt.semillero.ejb;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.TematicaEnum;
+import com.hbt.semillero.interfaces.Utils;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -28,7 +32,7 @@ import com.hbt.semillero.entidad.Comic;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class GestionarComicBean implements IGestionarComicLocal {
+public class GestionarComicBean implements IGestionarComicLocal, Utils {
 
 	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
 	/**
@@ -131,12 +135,19 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		comicDTO.setFechaVenta(comic.getFechaVenta());
 		comicDTO.setEstadoEnum(comic.getEstadoEnum());
 		comicDTO.setCantidad(comic.getCantidad());
+		
+		// Calculo del iva del comic dependiendo de su tematica
+		comicDTO.setIva(this.calcularIva(comic.getTematicaEnum().toString() ));
+		// Calculo del precio total de un comic por su precio e iva
+		comicDTO.setPrecioTotal(this.calcularPercioTotal(comic.getPrecio(), comicDTO.getIva()));
+		
+		
 		return comicDTO;
 	}
 
 	/**
 	 * 
-	 * Metodo encargado de transformar un comicDTO a un comic
+	 * @Descripción Metodo encargado de transformar un comicDTO a un comic
 	 * 
 	 * @param comic
 	 * @return
@@ -158,5 +169,61 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		comic.setEstadoEnum(comicDTO.getEstadoEnum());
 		comic.setCantidad(comicDTO.getCantidad());
 		return comic;
+	}
+
+	/**
+	 * 
+	 * @Descripción Metodo calcular el iva de un comic dependiendo de su tematica
+	 * 
+	 * @author Alberto Puche Algarin
+	 * 
+	 * @fecha 2019-12-12
+	 * 
+	 * @param tematicaEnum Temetica del comic
+	 * @return iva
+	 */
+	@Override
+	public float calcularIva(String tematicaEnum) {
+		// Variable que llevara el iva del comic y sera retornada por el metodo
+		float iva = 0;
+
+		if ( tematicaEnum.equals("AVENTURAS") || tematicaEnum.equals("FANTASTICO") || tematicaEnum.equals("HISTORICO")  ) {
+			iva = (float) 5;
+		}
+		
+		if (tematicaEnum.equals("DEPORTIVO")) {
+			iva = (float) 10;
+		}
+		
+		if (tematicaEnum.equals("BELICO") || tematicaEnum.equals("CIENCIA_FICCION") || tematicaEnum.equals("HORROR") ) {
+			iva = (float) 16;
+		}
+		
+		return iva;
+	}
+
+	/**
+	 * 
+	 * @Descripción Metodo calcular el iva de un comic dependiendo de su tematica
+	 * 
+	 * @author Alberto Puche Algarin
+	 * 
+	 * @fecha 2019-12-12
+	 * 
+	 * @param precio Precio del comic
+	 * @param iva Iva del comic
+	 * 
+	 * @return valorTotal
+	 */
+	@Override
+	public BigDecimal calcularPercioTotal(BigDecimal precio, float iva) {
+		// TODO Auto-generated method stub
+		BigDecimal valorTotal; 
+		float ivaT; 
+		ivaT = (iva/100);
+		valorTotal = precio.multiply(new BigDecimal(ivaT));
+		valorTotal = valorTotal.add(precio);
+
+		return valorTotal;
 	}
 }

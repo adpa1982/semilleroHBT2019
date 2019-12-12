@@ -14,8 +14,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * <b>Descripción:<b> Clase que determina la entidad que permite representar la
@@ -47,6 +49,9 @@ public class Comic implements Serializable {
 	private LocalDate fechaVenta;
 	private EstadoEnum estadoEnum;
 	private Long cantidad;
+	private float iva;
+	private BigDecimal precioTotal;
+	
 
 	/**
 	 * Constructor de la clase.
@@ -233,7 +238,7 @@ public class Comic implements Serializable {
 	/**
 	 * Metodo encargado de retornar el valor del atributo fechaVenta
 	 * 
-	 * @return El fechaVenta asociado a la clase
+	 * @return La fechaVenta asociado a la clase
 	 */
 	@Column(name = "SCFECHA_VENTA")
 	public LocalDate getFechaVenta() {
@@ -243,7 +248,7 @@ public class Comic implements Serializable {
 	/**
 	 * Metodo encargado de modificar el valor del atributo fechaVenta
 	 * 
-	 * @param fechaVenta El nuevo fechaVenta a modificar.
+	 * @param fechaVenta La nueva fechaVenta a modificar.
 	 */
 	public void setFechaVenta(LocalDate fechaVenta) {
 		this.fechaVenta = fechaVenta;
@@ -272,7 +277,7 @@ public class Comic implements Serializable {
 	/**
 	 * Metodo encargado de retornar el valor del atributo cantidad
 	 * 
-	 * @return El cantidad asociado a la clase
+	 * @return La cantidad asociado a la clase
 	 */
 	@Column(name = "SCCANTIDAD")
 	public Long getCantidad() {
@@ -282,11 +287,50 @@ public class Comic implements Serializable {
 	/**
 	 * Metodo encargado de modificar el valor del atributo cantidad
 	 * 
-	 * @param cantidad El nuevo cantidad a modificar.
+	 * @param cantidad La nueva cantidad a modificar.
 	 */
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
 	}
+	
+	/**
+	 * Metodo encargado de retornar el iva de un comic dependiendo de su tematica
+	 * 
+	 * @return El iva virtualmente asociado a la clase
+	 */
+	@Transient
+	public float getIva() {
+		return iva;
+	}
+
+	/**
+	 * Metodo encargado de modificar el valor del atributo iva
+	 * 
+	 * @param iva El nuevo iva a modificar.
+	 */
+	public void setIva(float iva) {
+		this.iva = iva;
+	}
+
+	/**
+	 * Metodo encargado de retornar el precioTotal de un comic calculado el iva y su precio
+	 * 
+	 * @return El precioTotal virtualmente asociado a la clase
+	 */
+	@Transient
+	public BigDecimal getPrecioTotal() {
+		return precioTotal;
+	}
+
+	/**
+	 * Metodo encargado de modificar el precioTotal de un comic calculado el iva y su precio
+	 * 
+	 * @param precioTotal El nuevo precioTotal a modificar.
+	 */
+	public void setPrecioTotal(BigDecimal precioTotal) {
+		this.precioTotal = precioTotal;
+	}
+
 
 	/**
 	 * @see java.lang.Object#toString() Metodo que permite asociar al objeto un

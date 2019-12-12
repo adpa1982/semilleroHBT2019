@@ -33,6 +33,9 @@ public class ComicDTO implements Serializable {
 	private EstadoEnum estadoEnum;
 	private Long cantidad;
 
+	private float iva;
+	private BigDecimal precioTotal;
+
 	/**
 	 * Metodo encargado de retornar el valor del atributo id
 	 * 
@@ -247,6 +250,43 @@ public class ComicDTO implements Serializable {
 	 */
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
+	}
+	
+
+	/**
+	 * Metodo encargado de retornar el iva de un comic dependiendo de su tematica
+	 * 
+	 * @return El iva virtualmente asociado a la clase
+	 */
+	public float getIva() {
+		return iva;
+	}
+
+	/**
+	 * Metodo encargado de modificar el valor del atributo iva
+	 * 
+	 * @param iva El nuevo iva a modificar.
+	 */
+	public void setIva(float iva) {
+		this.iva = iva;
+	}
+
+	/**
+	 * Metodo encargado de retornar el precioTotal de un comic calculado el iva y su precio
+	 * 
+	 * @return El precioTotal virtualmente asociado a la clase
+	 */
+	public BigDecimal getPrecioTotal() {
+		return precioTotal;
+	}
+
+	/**
+	 * Metodo encargado de modificar el precioTotal de un comic calculado el iva y su precio
+	 * 
+	 * @param precioTotal El nuevo precioTotal a modificar.
+	 */
+	public void setPrecioTotal(BigDecimal precioTotal) {
+		this.precioTotal = precioTotal;
 	}
 
 	/**
