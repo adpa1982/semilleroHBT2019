@@ -14,6 +14,7 @@ import { CrearPersonaComponent } from './semillero/componentes/crearPersona/crea
 import { GestionarComicComponent } from './semillero/componentes/gestionarComic/gestionar-comic';
 import { MensajeBienvenidaComponent } from './semillero/componentes/mensajeBienvenida/mensaje-bienvenida-component';
 import { DatosAlumnoComponent } from './semillero/componentes/datosAlumno/datos-alumno-component';
+import { GestionarVerComicComponent } from './semillero/componentes/gestionarComic/gestionar-ver-comic';
 
 // DTOs
 export { ComicDTO } from './semillero/dto/comic.dto';
@@ -33,19 +34,21 @@ import {AbstractService} from './semillero/services/template.service';
     BienvenidaComponent,
     CrearPersonaComponent,
     GestionarComicComponent,
+    GestionarVerComicComponent,
     MensajeBienvenidaComponent,
     DatosAlumnoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    // tslint:disable-next-line: deprecation
     HttpModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
   ],
   providers: [
-  	{ provide: APP_BASE_HREF, useValue: '/SemilleroHBT' }
+    { provide: APP_BASE_HREF, useValue: '/SemilleroHBT' }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-condensed table-stripped table-bordered text-center" id="pruebas-table">
+          <caption class="text-uppercase bg-teal bg-lighten-4">Información del comic</caption>
+          <thead>
+                <tr>
+                    <td class="class-td">Id</td>
+                    <td>{{ id }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Nombre</td>
+                    <td>{{ nombre }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Número de páginas</td>
+                    <td>{{ numeroPaginas }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Precio</td>
+                    <td>{{ precio }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Colección</td>
+                    <td>{{ coleccion }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Autores</td>
+                    <td>{{ autores }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Tematica</td>
+                    <td>{{ tematica }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Editorial</td>
+                    <td>{{ editorial }}</td>
+                </tr>
+                <tr>
+                    <td class="class-td">Color</td>
+                    <td>{{ color }}</td>
+                </tr>
+          </thead>
+        </table>
+      </div>
+</div>
+<button (click)="gestionarComic()" class="btn btn-danger">
+    <i class="la la-remove" ></i> Ir a Gestionar comic
+</button>
