@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6 hiddens">
+            <div class="col-6 d-none">
                 <input type="text" class="form-control" id="id" formControlName="id">
             </div>
         </div>
@@ -90,7 +90,7 @@
 
         <br>
 
-        <div class="row">
+        <div class="row ver-mensaje">
             <div class="col-12">
                 <div class="alert alert-info" role="alert" *ngIf="verMensaje">
                     <span>{{ mensaje }}</span>
@@ -98,8 +98,16 @@
             </div>
         </div>
 
+        <div class="row mensaje-id">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert" *ngIf="msjId">
+                    <span>{{ mensajeId }}</span>
+                </div>
+            </div>
+        </div>
+
         <br>
-        
+
         <div class="row" [hidden]="listaComics.length === 0">
             <div class="col-12">
                 <table class="table">

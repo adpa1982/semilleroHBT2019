@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
- * 
+ *
  * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
  */
 @Component({
@@ -51,6 +51,10 @@ export class GestionarComicComponent implements OnInit {
      * @description Variable que va a verificar el estado del div a mostrar
      */
     public msjId: boolean;
+    /**
+     * @description Variable que va a contener el mensaje del dato actualizado
+     */
+    public mensajeId: string;
 
     /**
      * @description Este es el constructor del componente GestionarComicComponent
@@ -83,31 +87,35 @@ export class GestionarComicComponent implements OnInit {
         this.mensaje = '';
         this.verMensaje = false;
         this.msjId = false;
+        this.mensajeId = '';
     }
 
     /**
      * @description Metodo que permite validar el formulario y crear o actulizar un comic
+     *
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-14 Modificado
      */
     public crearActualizarComic(): void {
         this.submitted = true;
         if (this.gestionarComicForm.invalid) {
             return;
         }
-        console.log('g/a this.listaComics.length: ' + this.listaComics.length);
-        console.log('id ' + this.gestionarComicForm.controls.id.value);
+        // console.log('g/a this.listaComics.length: ' + this.listaComics.length);
+        // console.log('id ' + this.gestionarComicForm.controls.id.value);
         let id: string;
         let bool: boolean;
         id = this.gestionarComicForm.controls.id.value;
-        console.dir(this.listaComics);
+        // console.dir(this.listaComics);
         this.listaComics.forEach(element => {
             if (element.id === id) {
-                console.log(element.id);
+                // console.log(element.id);
                 bool = true;
             }
         });
 
         if (bool) {
-            console.log('id ' + id );
+            // console.log('id ' + id );
             this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
             this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
             this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
@@ -116,6 +124,11 @@ export class GestionarComicComponent implements OnInit {
             this.comic.precio = this.gestionarComicForm.controls.precio.value;
             this.comic.autores = this.gestionarComicForm.controls.autores.value;
             this.comic.color = this.gestionarComicForm.controls.color.value;
+            this.msjId = true;
+            this.mensajeId = 'Se ha actualizado el comic: ' + this.comic.nombre + '  con Id: ' + id;
+            setTimeout (() => {
+                this.msjId = false;
+             }, 2000);
         } else {
             this.idComic++;
             this.comic = new ComicDTO();
@@ -130,12 +143,13 @@ export class GestionarComicComponent implements OnInit {
             this.comic.color = this.gestionarComicForm.controls.color.value;
             this.listaComics.push(this.comic);
         }
-
         this.limpiarFormulario();
     }
 
     /**
-     * Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
+     * @description Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-14
      * @param posicion en la lista del comic seleccionado
      */
     public consultarComic(posicion: number): void {
@@ -162,7 +176,9 @@ export class GestionarComicComponent implements OnInit {
     }
 
     /**
-     * Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
+     * @description Metodo que permite consultar un comic de la tabla y sus detalles en el formulario para poder actualizarlos
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-14
      * @param posicion en la lista del comic seleccionado
      */
     public editarComic(posicion: number): void {
@@ -177,12 +193,13 @@ export class GestionarComicComponent implements OnInit {
         this.gestionarComicForm.controls.precio.setValue(comic.precio);
         this.gestionarComicForm.controls.autores.setValue(comic.autores);
         this.gestionarComicForm.controls.color.setValue(comic.color);
-        this.msjId = true;
         this.gestionarComicForm.controls.id.setValue(comic.id);
     }
 
     /**
-     * Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
+     * @description Metodo que permite eliminar un comic de la tabla
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-14
      * @param posicion en la lista del comic seleccionado
      */
     public eliminarComic(posicion: number): void {
@@ -192,6 +209,9 @@ export class GestionarComicComponent implements OnInit {
 
         this.verMensaje = true;
         this.mensaje = 'Se ha eliminado el comic: ' + comic.nombre + '  con Id: ' + comic.id;
+        setTimeout (() => {
+            this.verMensaje = false;
+         }, 2000);
     }
 
     private limpiarFormulario(): void {
