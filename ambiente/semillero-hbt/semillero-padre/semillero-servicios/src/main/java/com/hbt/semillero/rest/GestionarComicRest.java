@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
@@ -45,8 +46,17 @@ public class GestionarComicRest {
 	@GET
 	@Path("/saludo")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String primerRest() {
-		return "Prueba inicial servicios rest en el semillero java hbt";
+	public Response primerRest() {
+		try {
+			return Response.status(Response.Status.OK)
+					       .entity("Prueba inicial servicios rest en el semillero java hbt")
+					       .build();
+		} catch (Exception e) {			
+			return Response.status(Response.Status.BAD_REQUEST)
+					       .entity("Se presento fallo en la invocación del sercicio " + e)
+					       .build();
+		}
+		//return "Prueba inicial servicios rest en el semillero java hbt";
 	}
 
 	/**
@@ -94,10 +104,24 @@ public class GestionarComicRest {
 	@Path("/crear")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ResultadoDTO crearComic(ComicDTO comicDTO) {
-		gestionarComicEJB.crearComic(comicDTO);
+	//public ResultadoDTO crearComic(ComicDTO comicDTO) {
+	public Response crearComic(ComicDTO comicDTO) {
+		
+		try {
+			gestionarComicEJB.crearComic(comicDTO);
+			ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente");
+			return Response.status(Response.Status.CREATED)
+					       .entity(resultadoDTO)
+					       .build();
+		} catch (Exception e) {			
+			return Response.status(Response.Status.BAD_REQUEST)
+					       .entity("Se presento fallo en la invocación del sercicio " + e)
+					       .build();
+		}
+		
+		/*gestionarComicEJB.crearComic(comicDTO);
 		ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente");
-		return resultadoDTO;
+		return resultadoDTO;*/
 		
 	}
 

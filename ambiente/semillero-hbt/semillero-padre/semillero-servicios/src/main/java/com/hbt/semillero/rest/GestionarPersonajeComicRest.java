@@ -12,8 +12,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import com.hbt.semillero.dto.PersonajeComicDTO;
+import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.ejb.IGestionarPersonajeComicLocal;
 
 /**
@@ -51,8 +53,22 @@ public class GestionarPersonajeComicRest {
 	@Path("/crear")
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-	public void crearPersonajeComic(PersonajeComicDTO personajeComicDTO) {
-		gestionarPersonajeComicEJB.crearPersonajeComic(personajeComicDTO);
+	//public void crearPersonajeComic(PersonajeComicDTO personajeComicDTO) {
+	public Response crearPersonajeComic(PersonajeComicDTO personajeComicDTO) {
+		
+		try {
+			gestionarPersonajeComicEJB.crearPersonajeComic(personajeComicDTO);
+			//ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Personaje del Comic creado exitosamente");
+			return Response.status(Response.Status.CREATED)
+					       .entity(personajeComicDTO)
+					       .build();
+		} catch (Exception e) {			
+			return Response.status(Response.Status.BAD_REQUEST)
+					       .entity("Se presento fallo en la invocación del sercicio " + e)
+					       .build();
+		}
+		
+		//gestionarPersonajeComicEJB.crearPersonajeComic(personajeComicDTO);
 	}
 
 	/**
