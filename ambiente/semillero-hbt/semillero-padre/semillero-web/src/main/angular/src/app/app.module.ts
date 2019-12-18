@@ -52,6 +52,6 @@ import {AbstractService} from './semillero/services/template.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
 }
