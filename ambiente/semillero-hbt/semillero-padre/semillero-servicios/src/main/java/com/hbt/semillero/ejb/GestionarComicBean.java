@@ -4,7 +4,6 @@
 package com.hbt.semillero.ejb;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
-import com.hbt.semillero.entidad.TematicaEnum;
+import com.hbt.semillero.exceptions.ComicException;
 import com.hbt.semillero.interfaces.Utils;
 
 /**
@@ -59,11 +58,11 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) {
-		Comic comicModificar ;
-		if(comicNuevo==null) {
+		Comic comicModificar;
+		if (comicNuevo == null) {
 			// Entidad a modificar
 			comicModificar = em.find(Comic.class, id);
-		}else {
+		} else {
 			comicModificar = convertirComicDTOToComic(comicNuevo);
 		}
 		comicModificar.setNombre(nombre);
@@ -75,11 +74,18 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void eliminarComic(Long idComic) {
-		Comic comicEliminar = em.find(Comic.class, idComic);
-		if (comicEliminar != null) {
-			em.remove(comicEliminar);
+	public void eliminarComic(Long idComic) throws ComicException {
+		try {
+			Comic comicEliminar = em.find(Comic.class, idComic);
+			if (comicEliminar != null) {
+				em.remove(comicEliminar);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("Error al eliminar el comic " + e);
+			throw new ComicException("COD-0001", "Error ejecuntando la eliminacion del comic", e);
 		}
+
 	}
 
 	/**
@@ -87,12 +93,19 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComic(java.lang.String)
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public ComicDTO consultarComic(String idComic) {
-		Comic comic = null;
-		comic = new Comic();
-		comic = em.find(Comic.class, Long.parseLong(idComic));
-		ComicDTO comicDTO = convertirComicToComicDTO(comic);
-		return comicDTO;
+	public ComicDTO consultarComic(Long idComic) throws ComicException {
+
+		try {
+			Comic comic = null;
+			comic = new Comic();
+			comic = em.find(Comic.class, idComic);
+			ComicDTO comicDTO = convertirComicToComicDTO(comic);
+			return comicDTO;
+		} catch (NumberFormatException e) {
+			logger.error("Error convirtiendo la cadena a numero "  + idComic);
+			throw new ComicException("COD-0002", "No se pudo convertir la cadena", e);
+		}
+
 	}
 
 	/**
@@ -101,12 +114,12 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ComicDTO> consultarComics() {
-		
+
 		logger.debug("Se Ejecuta el comando");
-		
+
 		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
 		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
-		for (Comic comic:resultados) {
+		for (Comic comic : resultados) {
 			resultadosComicDTO.add(convertirComicToComicDTO(comic));
 		}
 		return resultadosComicDTO;
@@ -121,8 +134,8 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 */
 	private ComicDTO convertirComicToComicDTO(Comic comic) {
 		ComicDTO comicDTO = new ComicDTO();
-		if(comic.getId()!=null) {
-		 comicDTO.setId(comic.getId().toString());
+		if (comic.getId() != null) {
+			comicDTO.setId(comic.getId().toString());
 		}
 		comicDTO.setNombre(comic.getNombre());
 		comicDTO.setEditorial(comic.getEditorial());
@@ -135,13 +148,12 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 		comicDTO.setFechaVenta(comic.getFechaVenta());
 		comicDTO.setEstadoEnum(comic.getEstadoEnum());
 		comicDTO.setCantidad(comic.getCantidad());
-		
+
 		// Calculo del iva del comic dependiendo de su tematica
-		comicDTO.setIva(this.calcularIva(comic.getTematicaEnum().toString() ));
+		comicDTO.setIva(this.calcularIva(comic.getTematicaEnum().toString()));
 		// Calculo del precio total de un comic por su precio e iva
 		comicDTO.setPrecioTotal(this.calcularPercioTotal(comic.getPrecio(), comicDTO.getIva()));
-		
-		
+
 		return comicDTO;
 	}
 
@@ -154,7 +166,7 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 */
 	private Comic convertirComicDTOToComic(ComicDTO comicDTO) {
 		Comic comic = new Comic();
-		if(comicDTO.getId()!=null) {
+		if (comicDTO.getId() != null) {
 			comic.setId(Long.parseLong(comicDTO.getId()));
 		}
 		comic.setNombre(comicDTO.getNombre());
@@ -187,18 +199,18 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 		// Variable que llevara el iva del comic y sera retornada por el metodo
 		float iva = 0;
 
-		if ( tematicaEnum.equals("AVENTURAS") || tematicaEnum.equals("FANTASTICO") || tematicaEnum.equals("HISTORICO")  ) {
+		if (tematicaEnum.equals("AVENTURAS") || tematicaEnum.equals("FANTASTICO") || tematicaEnum.equals("HISTORICO")) {
 			iva = (float) 5;
 		}
-		
+
 		if (tematicaEnum.equals("DEPORTIVO")) {
 			iva = (float) 10;
 		}
-		
-		if (tematicaEnum.equals("BELICO") || tematicaEnum.equals("CIENCIA_FICCION") || tematicaEnum.equals("HORROR") ) {
+
+		if (tematicaEnum.equals("BELICO") || tematicaEnum.equals("CIENCIA_FICCION") || tematicaEnum.equals("HORROR")) {
 			iva = (float) 16;
 		}
-		
+
 		return iva;
 	}
 
@@ -211,16 +223,16 @@ public class GestionarComicBean implements IGestionarComicLocal, Utils {
 	 * @fecha 2019-12-12
 	 * 
 	 * @param precio Precio del comic
-	 * @param iva Iva del comic
+	 * @param iva    Iva del comic
 	 * 
 	 * @return valorTotal
 	 */
 	@Override
 	public BigDecimal calcularPercioTotal(BigDecimal precio, float iva) {
 		// TODO Auto-generated method stub
-		BigDecimal valorTotal; 
-		float ivaT; 
-		ivaT = (iva/100);
+		BigDecimal valorTotal;
+		float ivaT;
+		ivaT = (iva / 100);
 		valorTotal = precio.multiply(new BigDecimal(ivaT));
 		valorTotal = valorTotal.add(precio);
 

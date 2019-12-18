@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.exceptions.ComicException;
 
 /**
  * Expone los métodos del EJB GestionarComic Las interfaces determinan una
@@ -46,7 +47,7 @@ public interface IGestionarComicLocal {
 	 * 
 	 * @param comicEliminar informacion a eliminar
 	 */
-	public void eliminarComic(Long idComic);
+	public void eliminarComic(Long idComic) throws ComicException;
 
 	/**
 	 * 
@@ -56,7 +57,7 @@ public interface IGestionarComicLocal {
 	 * @return comic Resultado de la consulta
 	 * @throws Exception si no se recibe idComic
 	 */
-	public ComicDTO consultarComic(String idComic);
+	public ComicDTO consultarComic(Long idComic) throws ComicException;
 
 	/**
 	 * 

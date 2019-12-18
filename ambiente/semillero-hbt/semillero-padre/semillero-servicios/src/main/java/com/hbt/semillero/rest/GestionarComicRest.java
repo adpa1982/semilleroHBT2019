@@ -4,6 +4,7 @@
 package com.hbt.semillero.rest;
 
 import java.util.List;
+import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -17,7 +18,9 @@ import javax.ws.rs.core.Response;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
+import com.hbt.semillero.ejb.GestionarComicBean;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
+import com.hbt.semillero.exceptions.ComicException;
 
 /**
  * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
@@ -28,6 +31,9 @@ import com.hbt.semillero.ejb.IGestionarComicLocal;
  */
 @Path("/GestionarComic")
 public class GestionarComicRest {
+
+	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
+	// final static Logger logger = Logger.getLogger(GestionarComicBean.class);
 
 	/**
 	 * Atriburo que permite gestionar un comic
@@ -48,15 +54,13 @@ public class GestionarComicRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response primerRest() {
 		try {
-			return Response.status(Response.Status.OK)
-					       .entity("Prueba inicial servicios rest en el semillero java hbt")
-					       .build();
-		} catch (Exception e) {			
+			return Response.status(Response.Status.OK).entity("Prueba inicial servicios rest en el semillero java hbt")
+					.build();
+		} catch (Exception e) {
 			return Response.status(Response.Status.BAD_REQUEST)
-					       .entity("Se presento fallo en la invocación del sercicio " + e)
-					       .build();
+					.entity("Se presento fallo en la invocación del sercicio " + e).build();
 		}
-		//return "Prueba inicial servicios rest en el semillero java hbt";
+		// return "Prueba inicial servicios rest en el semillero java hbt";
 	}
 
 	/**
@@ -87,16 +91,23 @@ public class GestionarComicRest {
 	@Path("/consultarComic")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ComicDTO consultarComic(@QueryParam("idComic") Long idComic) {
-		if (idComic != null) {
-			ComicDTO comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
-			return comicDTO;
+		ComicDTO comicDTO = null;
+		try {
+			if (idComic != null) {
+				comicDTO = gestionarComicEJB.consultarComic(idComic);
+			}
+		} catch (ComicException e) {
+			logger.error("Se capturo la excepcion y la informacion es:  codigo " + e.getCodigo() + " mensaje:"
+					+ e.getMensaje());
 		}
-		return null;
+		return comicDTO;
+
 	}
 
 	/**
 	 * Crea las personas en sus diferentes roles dentro del sistema.
 	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/crear
+	 * 
 	 * @param persona
 	 * @return
 	 */
@@ -104,33 +115,32 @@ public class GestionarComicRest {
 	@Path("/crear")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	//public ResultadoDTO crearComic(ComicDTO comicDTO) {
+	// public ResultadoDTO crearComic(ComicDTO comicDTO) {
 	public Response crearComic(ComicDTO comicDTO) {
-		
+
 		try {
 			gestionarComicEJB.crearComic(comicDTO);
 			ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente");
-			return Response.status(Response.Status.CREATED)
-					       .entity(resultadoDTO)
-					       .build();
-		} catch (Exception e) {			
+			return Response.status(Response.Status.CREATED).entity(resultadoDTO).build();
+		} catch (Exception e) {
 			return Response.status(Response.Status.BAD_REQUEST)
-					       .entity("Se presento fallo en la invocación del sercicio " + e)
-					       .build();
+					.entity("Se presento fallo en la invocación del sercicio " + e).build();
 		}
-		
-		/*gestionarComicEJB.crearComic(comicDTO);
-		ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente");
-		return resultadoDTO;*/
-		
+
+		/*
+		 * gestionarComicEJB.crearComic(comicDTO); ResultadoDTO resultadoDTO = new
+		 * ResultadoDTO(Boolean.TRUE, "Comic creado exitosamente"); return resultadoDTO;
+		 */
+
 	}
 
 	/**
 	 * 
 	 * Metodo encargado de modificar el nombre de un comic
 	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=1&nombre=nuevonombre
+	 * 
 	 * @param idComic identificador del comic a buscar
-	 * @param nombre nombre nuevo del comic
+	 * @param nombre  nombre nuevo del comic
 	 */
 	@POST
 	@Path("/modificar")
@@ -149,9 +159,17 @@ public class GestionarComicRest {
 	@Path("/eliminar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void eliminarComic(@QueryParam("idComic") Long idComic) {
-		if (idComic != null) {
-			ComicDTO comicDTO = gestionarComicEJB.consultarComic(idComic.toString());
 
+		try {
+
+			if (idComic != null) {
+				gestionarComicEJB.eliminarComic(idComic);
+			}
+
+		} catch (ComicException e) {
+			logger.error("Se capturo la excepcion y la informacion es:  codigo " + e.getCodigo() + " mensaje:"
+					+ e.getMensaje());
 		}
+
 	}
 }
