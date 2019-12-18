@@ -15,7 +15,7 @@ export class SemilleroAuthHttp {
   }
 
   private authIntercept(response: Observable<Response>): Observable<Response> {
-    var sharableResponse = response.share()
+    var sharableResponse = response.share();
     sharableResponse.subscribe(null, (err) => {
       if (this.isUnauthorized(err.status)) {
         this.router.navigate(['/login']);
@@ -25,7 +25,7 @@ export class SemilleroAuthHttp {
     return sharableResponse;
   }
   public setGlobalHeaders(headers: Array<Object>, request: Request | RequestOptionsArgs) {
-    //this.authHttp.setGlobalHeaders(headers, request);
+    // this.authHttp.setGlobalHeaders(headers, request);
   }
 
   public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
