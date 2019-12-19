@@ -1,6 +1,6 @@
 /**
  * @description Clase ComicDTO que contiene la informacion de un comic
- * 
+ *
  * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
  */
 export class ComicDTO {
@@ -23,7 +23,7 @@ export class ComicDTO {
     /**
     * Indicador de resultado.
     */
-    public tematica: string;
+    public tematicaEnum: string;
 
     /**
     * Indicador de resultado.

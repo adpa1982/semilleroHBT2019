@@ -15,7 +15,8 @@ export class SemilleroAuthHttp {
   }
 
   private authIntercept(response: Observable<Response>): Observable<Response> {
-    var sharableResponse = response.share();
+    let sharableResponse = null;
+    sharableResponse = response.share();
     sharableResponse.subscribe(null, (err) => {
       if (this.isUnauthorized(err.status)) {
         this.router.navigate(['/login']);
@@ -59,4 +60,5 @@ export class SemilleroAuthHttp {
   public options(url: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.authIntercept(this.authHttp.options(url, options));
   }
+
 }

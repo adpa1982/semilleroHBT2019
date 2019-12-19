@@ -12,6 +12,8 @@ import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.EstadoEnum;
 import com.hbt.semillero.entidad.TematicaEnum;
 
+import antlr.Parser;
+
 /**
  * <b>Descripción:<b> Clase que determina el uso de metodos para manipular
  * informacion POJO «Plain Old Java Object», que puede interpretarse como «Un
@@ -39,7 +41,7 @@ public class GestionarComicPOJO {
 		// Se crea e instancia un objeto de tipo ComicDTO
 		ComicDTO comic = new ComicDTO();
 		TematicaEnum aventuras = TematicaEnum.AVENTURAS;
-		comic.setId("100");
+		//comic.setId("100");
 		comic.setNombre("EL EJÉRCITO DEL CAPITÁN AMÉRICA");
 		comic.setEditorial("Panini Comics ");
 		comic.setTematicaEnum(aventuras);

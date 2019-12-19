@@ -13,7 +13,7 @@ import { ComicDTO } from '../dto/comic.dto';
 @Injectable({
   providedIn: 'root'
 })
-export class EjemploService extends AbstractService {
+export class GestionarComicsService extends AbstractService {
 
   /**
    * Constructor

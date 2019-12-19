@@ -40,35 +40,39 @@ export class AbstractService  {
     }
 
     private getURL() {
-        let url;
+        let url = null;
         if (this.isNpmServe()) {
             return 'http://127.0.0.1:8085';
         }
 
         url =  location.protocol + '//' + location.hostname;
-        if(location.port !== '85') {
+        if (location.port !== '85') {
             url +=  ':' + location.port;
         }
         return url;
     }
 
     public get<T>(module: string, path: string, params?: { [param: string]: string | string[]; }): Observable<T> {
-        let url = this.buildURL(module, path);
+        let url = null;
+        url = this.buildURL(module, path);
         return this.http.get<T>(url, { headers: this.headers, params: params });
     }
 
     public post<T>(module: string, path: string, body: any, options?: RequestOptionsArgs): Observable<T> {
-        let url = this.buildURL(module, path);
+        let url = null;
+        url = this.buildURL(module, path);
         return this.http.post<T>(url, body, { headers: this.headers });
     }
 
     public put<T>(module: string, path: string, body: any, options?: RequestOptionsArgs): Observable<T> {
-        let url = this.buildURL(module, path);
+        let url = null;
+        url = this.buildURL(module, path);
         return this.http.put<T>(url, body, { headers: this.headers });
     }
 
     public delete<T>(module: string, path: string, options?: RequestOptionsArgs): Observable<T> {
-        let url = this.buildURL(module, path);
+        let url = null;
+        url = this.buildURL(module, path);
         return this.http.delete<T>(url, { headers: this.headers });
     }
 }

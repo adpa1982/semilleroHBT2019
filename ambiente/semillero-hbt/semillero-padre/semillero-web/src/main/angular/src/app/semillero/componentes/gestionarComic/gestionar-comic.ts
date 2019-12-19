@@ -2,6 +2,7 @@ import { ComicDTO } from '../../dto/comic.dto';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GestionarComicsService } from '../../services/gestionar-comics.service';
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
@@ -31,7 +32,7 @@ export class GestionarComicComponent implements OnInit {
      */
     public listaComics: Array<ComicDTO>;
 
-    public idComic: number = 0;
+    public idComic: number;
 
     /**
      * Atributo que indica si se envio a validar el formulario
@@ -61,7 +62,8 @@ export class GestionarComicComponent implements OnInit {
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
     constructor(private fb: FormBuilder,
-        private router: Router) {
+        private router: Router,
+        private gestionarComicService: GestionarComicsService) {
         this.gestionarComicForm = this.fb.group({
             nombre : [null, Validators.required],
             editorial : [null],
@@ -71,6 +73,7 @@ export class GestionarComicComponent implements OnInit {
             precio : [null],
             autores : [null],
             color : [null],
+            cantidad : [null],
             id : [null]
         });
     }
@@ -88,6 +91,80 @@ export class GestionarComicComponent implements OnInit {
         this.verMensaje = false;
         this.msjId = false;
         this.mensajeId = '';
+
+        this.consultarComics();
+    }
+
+    /**
+     * @description Metodo que permite consultar los comics de la tabla por medio de ServiciosRest
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-18
+     * @param posicion en la lista del comic seleccionado
+     */
+    public consultarComics(): void {
+        this.gestionarComicService.consultarComics().subscribe(listaComics => {
+            this.listaComics = listaComics;
+        }, error => {
+            console.log('Se ha presentado un error al consumir el servicio de consultarComics(): ' + error);
+        });
+    }
+
+    /**
+     * @description Metodo que permite validar el formulario y crear o actulizar un comic por medio de ServiciosRest
+     *
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-14 Modificado
+     */
+    public crearActualizarComicRest (): void {
+        this.submitted = true;
+        if (this.gestionarComicForm.invalid) {
+            return;
+        }
+        // console.log('g/a this.listaComics.length: ' + this.listaComics.length);
+        // console.log('id ' + this.gestionarComicForm.controls.id.value);
+        let id: string;
+        let bool: boolean;
+        id = this.gestionarComicForm.controls.id.value;
+        // console.dir(this.listaComics);
+        this.listaComics.forEach(element => {
+            if (element.id === id) {
+                // console.log(element.id);
+                bool = true;
+            }
+        });
+
+        if (bool) {
+            // console.log('id ' + id );
+            this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
+            this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
+            this.comic.tematicaEnum = this.gestionarComicForm.controls.tematica.value;
+            this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
+            this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
+            this.comic.precio = this.gestionarComicForm.controls.precio.value;
+            this.comic.autores = this.gestionarComicForm.controls.autores.value;
+            this.comic.color = this.gestionarComicForm.controls.color.value;
+            this.comic.cantidad = this.gestionarComicForm.controls.cantidad.value;
+            this.msjId = true;
+            this.mensajeId = 'Se ha actualizado el comic: ' + this.comic.nombre + '  con Id: ' + id;
+            setTimeout (() => {
+                this.msjId = false;
+             }, 2000);
+        } else {
+            this.idComic++;
+            this.comic = new ComicDTO();
+            this.comic.id = this.idComic + '';
+            this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
+            this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
+            this.comic.tematicaEnum = this.gestionarComicForm.controls.tematica.value;
+            this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
+            this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
+            this.comic.precio = this.gestionarComicForm.controls.precio.value;
+            this.comic.autores = this.gestionarComicForm.controls.autores.value;
+            this.comic.color = this.gestionarComicForm.controls.color.value;
+            this.comic.cantidad = this.gestionarComicForm.controls.cantidad.value;
+            this.listaComics.push(this.comic);
+        }
+        this.limpiarFormulario();
     }
 
     /**
@@ -118,12 +195,13 @@ export class GestionarComicComponent implements OnInit {
             // console.log('id ' + id );
             this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
             this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
-            this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
+            this.comic.tematicaEnum = this.gestionarComicForm.controls.tematica.value;
             this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
             this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
             this.comic.precio = this.gestionarComicForm.controls.precio.value;
             this.comic.autores = this.gestionarComicForm.controls.autores.value;
             this.comic.color = this.gestionarComicForm.controls.color.value;
+            this.comic.cantidad = this.gestionarComicForm.controls.cantidad.value;
             this.msjId = true;
             this.mensajeId = 'Se ha actualizado el comic: ' + this.comic.nombre + '  con Id: ' + id;
             setTimeout (() => {
@@ -135,12 +213,13 @@ export class GestionarComicComponent implements OnInit {
             this.comic.id = this.idComic + '';
             this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
             this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
-            this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
+            this.comic.tematicaEnum = this.gestionarComicForm.controls.tematica.value;
             this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
             this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
             this.comic.precio = this.gestionarComicForm.controls.precio.value;
             this.comic.autores = this.gestionarComicForm.controls.autores.value;
             this.comic.color = this.gestionarComicForm.controls.color.value;
+            this.comic.cantidad = this.gestionarComicForm.controls.cantidad.value;
             this.listaComics.push(this.comic);
         }
         this.limpiarFormulario();

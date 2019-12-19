@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import {EjemploService} from '../../services/ejemplo.service';
+import { GestionarComicsService } from '../../services/gestionar-comics.service';
 import { ComicDTO } from '../../dto/comic.dto';
 
 /**
@@ -18,7 +18,7 @@ export class BienvenidaComponent implements OnInit {
   public urlImagen: string;
   public comicDTO: ComicDTO;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private ejemploService: EjemploService) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private gestionarComicService: GestionarComicsService) {
     // console.log('entro al constructor del componente bienvenida');
   }
 
@@ -29,7 +29,7 @@ export class BienvenidaComponent implements OnInit {
     console.log('Parametros recibidos ' + data);
     console.dir(data);
 
-    this.ejemploService.consultarComics().subscribe(respuesta => {
+    this.gestionarComicService.consultarComics().subscribe(respuesta => {
       console.log(respuesta);
     });
 
