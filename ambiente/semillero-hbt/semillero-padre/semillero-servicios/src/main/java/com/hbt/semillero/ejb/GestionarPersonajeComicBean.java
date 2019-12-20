@@ -131,7 +131,7 @@ public class GestionarPersonajeComicBean implements IGestionarPersonajeComicLoca
 	 *
 	 * @author Alberto Puche Algarin
 	 *
-	 * @fecha 2019-12-05
+	 * @fecha 2019-12-19
 	 * 
 	 * @see main.java.com.hbt.semillero.ejb.IGestionarPersonajeComicLocal#consultarPersonajeComics()
 	 *
