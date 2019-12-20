@@ -1,97 +1,175 @@
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ComicDTO } from '../../dto/comic.dto';
+import { PersonaDTO } from '../../dto/persona.dto';
+import { GestionaPersonaService } from '../../services/gestionar-persona.service';
 
 /**
- * @description La clase CrearPersonaComponent permite crear personas
- * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
+ * @description Componente gestionar data persona
+ * @author Alberto David Puche Algarin
+ * @fecha 2019-12-20
  */
 @Component({
     // tslint:disable-next-line: component-selector
     selector: 'crear-persona',
-    templateUrl: './crear-persona-component.html'
+    templateUrl: './crear-persona-component.html',
+    styleUrls: ['./crear-persona-component.css']
 })
 export class CrearPersonaComponent implements OnInit {
 
-    private nombreInstructorGlobalPrivado: string;
-    public nombreInstructorGlobalPublic: string;
+    /**
+     * Atributo que contiene los controles del formulario
+     */
+    // public: FormGroup;
+    public gestionarPersonaForm: FormGroup;
 
-    public listaApellidos: Array<any> = new Array<any>();
-    public listaNombres = null;
+    /**
+     * Atributo que contendra la informacion de la persona
+     */
+    public persona: PersonaDTO;
 
-    public comicDTO: ComicDTO;
+    /**
+     * Atributo que contendra la lista de personas creadas
+     */
+    public listaPersonas: Array<PersonaDTO>;
+
+    /**
+     * @description Variable que va a contener el id de la persona
+     */
+    public id: number;
+
+    /**
+     * @description Variable que va a contener el nombre de la personsa
+     */
+     public nombre: string;
+
+     /**
+     * @description Variable que va a contener el tipodocumento de la personsa
+     */
+    public tipoDocumento: string;
+
+    /**
+     * @description Variable que va a contener el numerodocumento de la personsa
+     */
+    public numeroDocumento: number;
+
+    /**
+     * @description Variable que va a contener la fecha de nacimiento de la personsa
+     */
+    public fecha: Date;
+
+    /**
+     * Atributo que indica si se envio a validar el formulario
+     */
+    public submitted: boolean;
+
+    /**
+     * @description Variable que va a contener el mensaje
+     */
+    public mensaje: string;
+
+    /**
+     * @description Variable que va a verificar el estado del div a mostrar
+     */
+    public verMensaje: boolean;
+
+    /**
+     * @description Constructor del componente GestionarPersona
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-20
+     */
+    constructor(private fb: FormBuilder,
+        private gestionarPersonaService: GestionaPersonaService) {
+        // console.log('entro al constructor del componente persona');
+        this.gestionarPersonaForm = this.fb.group({
+            nombre : [null, Validators.required],
+            tipoDocumento : [null, Validators.required],
+            numeroDocumento : [null, Validators.required],
+            fecha : [null, Validators.required],
+            id : [null]
+        });
+    }
 
     ngOnInit(): void {
-        this.nombreInstructorGlobalPrivado = 'Semillero2019';
-        this.inicializarComponente();
-
-        let nombreInstructor = 'Diego Alvarez';
-        let nombreInstructorString: string = 'Diego Alvarez string';
-        // console.log('nombreInstructor: ' + nombreInstructor);
-        // console.log('nombreInstructorString: ' + nombreInstructorString);
-
-        let miVarible: any = {
-            id : 1,
-            nombre : 'Carlos',
-            direccion : 'Carrera 21 XXX',
-            colores : [1, 2, 3, 4, 5]
-        };
-        miVarible.genero = 'Masculino';
-        delete miVarible.genero;
-
-        this.listaApellidos.push(miVarible);
-
-        // alert("Longitud de la lista:" + this.listaNombres.length);
-
-        let miVariable: number = 100.23;
-        let variableString: string  = 'semillero2019';
-
-        let miVariableBoolean : boolean = true;
-
-        let miMapa: Map<string, string>;
-        miMapa = new Map<string, string>();
-
-        miMapa.set('1', 'semillero');
-        miMapa.get('1');
-        let mifecha = new Date();
-
-        console.log(mifecha);
-
-        let lista = this.listaApellidos;
-        for (let i = 0; i < lista.length; i++) {
-            const element = lista[i];
-            // console.log(element);
-        }
-
-        lista.forEach(element => {
-            // console.log(element);
-        });
-
-        lista.map(objeto => {
-            // console.log(objeto);
-        });
-
-
+        console.log('Ingreso al al evento oninit');
+        this.persona = new PersonaDTO();
+        this.listaPersonas = new Array<PersonaDTO>();
+        this.mensaje = '';
+        this.verMensaje = false;
+        this.consultarPersonas();
     }
 
-    public inicializarComponente(): Array<string> {
-        let retorno: any;
-        let objeto = undefined;
-        if (objeto !== null && objeto !== undefined ) {
-            // console.log('No es nulo');
-        } else {
-            // console.log('Si es nulo');
+    /**
+     * @description Metodo que permite consultar las personas de la tabla por medio de ServiciosRest
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-20
+     */
+    public consultarPersonas(): void {
+        this.gestionarPersonaService.consultar().subscribe(listaPersonas => {
+            console.log('consultarPersonas');
+            console.dir(listaPersonas);
+            this.listaPersonas = listaPersonas;
+        }, error => {
+            console.log('Se ha presentado un error al consumir el servicio de consultarComics(): ' + error);
+        });
+    }
+
+    /**
+     * @description Metodo que permite validar el formulario y crear una persona por medio de ServiciosRest
+     *
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-20
+     */
+    public crearActualizarPersonaRest(): void {
+        this.submitted = true;
+
+        if (this.gestionarPersonaForm.invalid) {
+            return;
         }
 
-        console.log(1 === 1);
-        // console.log("1" == 1);
-        console.log(1 === 1);
-        // console.log("1" === 1);
+        this.persona = new PersonaDTO();
+        this.persona.nombre = this.gestionarPersonaForm.controls.nombre.value;
+        this.persona.tipoDocumento = this.gestionarPersonaForm.controls.tipoDocumento.value;
+        this.persona.numeroDocumento = this.gestionarPersonaForm.controls.numeroDocumento.value;
+        this.persona.fecha = this.gestionarPersonaForm.controls.fecha.value;
 
-        this.comicDTO = new ComicDTO();
-        this.comicDTO.autores = 'Pablito';
-        this.comicDTO.fechaVenta = new Date();
-        // console.log(this.comicDTO.autores);
-
-        return retorno;
+        this.gestionarPersonaService.crear(this.persona).subscribe(resultado => {
+            this.mensaje = resultado.mensajeEjecucion;
+            this.consultarPersonas();
+            this.limpiarFormulario();
+            this.verMensaje = true;
+            this.mensaje = 'Se ha creado la persona correctamente.';
+            setTimeout (() => {
+                this.verMensaje = false;
+            }, 2000);
+        }, error => {
+            console.log('Se ha presentado un error al consumir el servicio de Crear persona(): ' + error);
+            console.dir(error);
+        });
     }
+
+    /**
+     * @description Metodo que permite limpiar un formulario
+     *
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-20
+     */
+    private limpiarFormulario(): void {
+        this.submitted = false;
+        this.gestionarPersonaForm.controls.nombre.setValue(null);
+        this.gestionarPersonaForm.controls.tipoDocumento.setValue(null);
+        this.gestionarPersonaForm.controls.numeroDocumento.setValue(null);
+        this.gestionarPersonaForm.controls.fecha.setValue(null);
+    }
+
+
+    /**
+     * @description Metodo que obtiene los controles y sus propiedades
+     *
+     * @author Alberto David Puche Algarin
+     * @fecha 2019-12-20
+     */
+    get f() {
+        return this.gestionarPersonaForm.controls;
+    }
+
 }

@@ -1,0 +1,117 @@
+<div class="container">
+    <form [formGroup]="gestionarVentaForm">
+        <h1>Gestionar Persona</h1>
+        <hr>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="personaid">Persona:</label>
+                <select class="form-control" id="personaid" formControlName="personaid"
+                [ngClass]="{ 'is-invalid': submitted && f.personaid.errors }">
+                  <option [value]="persona.id" *ngFor="let persona of listPersonas">{{ persona.nombre }}</option>
+                </select>
+                <div *ngIf="submitted && f.personaid.errors">
+                    <span class="text-danger" *ngIf="f.personaid.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="comicid">Comic:</label>
+                    <select class="form-control" id="comicid" formControlName="comicid"
+                    [ngClass]="{ 'is-invalid': submitted && f.comicid.errors }">
+                      <option [value]="comic.id" *ngFor="let comic of listComics">{{ comic.nombre }} | {{ comic.precio }}</option>
+                    </select>
+                    <div *ngIf="submitted && f.comicid.errors">
+                        <span class="text-danger" *ngIf="f.comicid.errors.required">Campo requerido.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="cantidad">Cantidad a comprar</label>
+                <input type="text" class="form-control" id="cantidad" formControlName="cantidad"
+                    [ngClass]="{ 'is-invalid': submitted && f.cantidad.errors }">
+                <div *ngIf="submitted && f.cantidad.errors">
+                    <span class="text-danger" *ngIf="f.cantidad.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="fecha">Fecha venta:</label>
+                <input type="text" class="form-control" id="fecha" formControlName="fecha"
+                    [ngClass]="{ 'is-invalid': submitted && f.fecha.errors }">
+                <div *ngIf="submitted && f.fecha.errors">
+                    <span class="text-danger" *ngIf="f.fecha.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 d-none">
+                <input type="text" class="form-control" id="id" formControlName="id">
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-6">
+                <span></span>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-primary" (click)="crearActualizarVentaRest()">Crear/Editar</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row ver-mensaje">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert" *ngIf="verMensaje">
+                    <span>{{ mensaje }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mensaje-id">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert" *ngIf="msjId">
+                    <span>{{ mensajeId }}</span>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row" [hidden]="listaVentas.length === 0">
+            <div class="col-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Persona</th>
+                            <th scope="col">Comic</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let venta of listaVentas;let i=index;">
+                            <th scope="row">{{ venta.id }}</th>
+                            <td>{{ venta.persona }}</td>
+                            <td>{{ venta.comic }}</td>
+                            <td>{{ venta.precio }}</td>
+                            <td>{{ venta.cantidad }}</td>>
+                            <td>
+                                <i class="fas fa-search 2x ml-1" (click)="consultarPersona(i)" title="Consultar"></i>
+                                <i class="fas fa-pencil-alt 2x ml-1" (click)="editarPersona(i)" title="Editar"></i>
+                                <i class="far fa-times-circle 2x ml-1" (click)="eliminarPersona(i)" title="Eliminar"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+</div>

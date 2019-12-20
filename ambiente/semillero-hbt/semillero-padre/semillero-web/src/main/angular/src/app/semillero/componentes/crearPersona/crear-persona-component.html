@@ -1,1 +1,119 @@
+<div class="container">
+    <form [formGroup]="gestionarPersonaForm">
+        <h1>Gestionar Persona</h1>
+        <hr>
 
+        <div class="row">
+            <div class="col-6">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                    [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }" maxlength="50">
+                <div *ngIf="submitted && f.nombre.errors">
+                    <span class="text-danger" *ngIf="f.nombre.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="tipoDocumento">Tipo de documento:</label>
+                    <select class="form-control" id="tipoDocumento" formControlName="tipoDocumento"
+                    [ngClass]="{ 'is-invalid': submitted && f.tipoDocumento.errors }">
+                        <option value="TARJETA DE IDENTIDAD">TARJETA DE IDENTIDAD</option>
+                        <option value="REGISTRO CIVIL">REGISTRO CIVIL</option>
+                        <option value="CEDULA DE CIUDADANIA">CEDULA DE CIUDADANIA</option>
+                        <option value="CEDULA DE EXTRANJERIA">CEDULA DE EXTRANJERIA</option>
+                    </select>
+                    <div *ngIf="submitted && f.tipoDocumento.errors">
+                        <span class="text-danger" *ngIf="f.tipoDocumento.errors.required">Campo requerido.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="numeroDocumento">Número documento:</label>
+                <input type="text" class="form-control" id="numeroDocumento" formControlName="numeroDocumento"
+                [ngClass]="{ 'is-invalid': submitted && f.numeroDocumento.errors }" maxlength="50">
+                <div *ngIf="submitted && f.numeroDocumento.errors">
+                    <span class="text-danger" *ngIf="f.numeroDocumento.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="fecha">Fecha de nacimiento:</label>
+                <input type="text" class="form-control" id="fecha" formControlName="fecha"
+                [ngClass]="{ 'is-invalid': submitted && f.fecha.errors }">
+                <div *ngIf="submitted && f.fecha.errors">
+                    <span class="text-danger" *ngIf="f.fecha.errors.required">Campo requerido.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 d-none">
+                <input type="text" class="form-control" id="id" formControlName="id">
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-6">
+                <span></span>
+            </div>
+            <div class="col-6 text-right">
+                <button type="button" class="btn btn-primary" (click)="crearActualizarPersonaRest()">Crear/Editar</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row ver-mensaje">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert" *ngIf="verMensaje">
+                    <span>{{ mensaje }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mensaje-id">
+            <div class="col-12">
+                <div class="alert alert-info" role="alert" *ngIf="msjId">
+                    <span>{{ mensajeId }}</span>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row" [hidden]="listaPersonas.length === 0">
+            <div class="col-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo documento</th>
+                            <th scope="col">Número de documento</th>
+                            <th scope="col">Fecha de nacimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let persona of listaPersonas;let i=index;">
+                            <th scope="row">{{ persona.id}}</th>
+                            <td>{{ persona.nombre | uppercase }}</td>
+                            <td>{{ persona.tipoDocumento | uppercase }}</td>
+                            <td>{{ persona.numeroDocumento }}</td>
+                            <td>{{ persona.fecha }}</td>>
+                            <td>
+                                <i class="fas fa-search 2x ml-1" (click)="consultarPersona(i)" title="Consultar"></i>
+                                <i class="fas fa-pencil-alt 2x ml-1" (click)="editarPersona(i)" title="Editar"></i>
+                                <i class="far fa-times-circle 2x ml-1" (click)="eliminarPersona(i)" title="Eliminar"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+</div>

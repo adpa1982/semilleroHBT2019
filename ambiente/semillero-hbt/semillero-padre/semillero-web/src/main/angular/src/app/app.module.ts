@@ -15,6 +15,7 @@ import { GestionarComicComponent } from './semillero/componentes/gestionarComic/
 import { MensajeBienvenidaComponent } from './semillero/componentes/mensajeBienvenida/mensaje-bienvenida-component';
 import { DatosAlumnoComponent } from './semillero/componentes/datosAlumno/datos-alumno-component';
 import { GestionarVerComicComponent } from './semillero/componentes/gestionarComic/gestionar-ver-comic';
+import { VentaComponent } from './semillero/componentes/venta/venta.component';
 
 // DTOs
 export { ComicDTO } from './semillero/dto/comic.dto';
@@ -36,7 +37,8 @@ import { AbstractService } from './semillero/services/template.service';
     GestionarComicComponent,
     GestionarVerComicComponent,
     MensajeBienvenidaComponent,
-    DatosAlumnoComponent
+    DatosAlumnoComponent,
+    VentaComponent
   ],
   imports: [
     BrowserModule,

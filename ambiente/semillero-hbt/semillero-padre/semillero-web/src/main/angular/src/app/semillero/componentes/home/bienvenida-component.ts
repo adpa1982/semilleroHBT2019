@@ -50,7 +50,7 @@ export class BienvenidaComponent implements OnInit {
     // console.log(this.comicDTO);
 
 
-    this.ejemploService.crearComic(this.comicDTO).subscribe(respuesta => {
+    this.gestionarComicService.crearComic(this.comicDTO).subscribe(respuesta => {
       console.log('respuesta' + respuesta);
     });
   }

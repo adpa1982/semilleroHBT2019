@@ -29,6 +29,24 @@ export class MenuComponent implements OnInit {
   }
 
   /**
+   * @description Metodo encargado de direccionar al componente Gestionar persona
+   * @author Alberto David Puche Algarin
+   * @fecha 2019-12-20
+   */
+  public navegarGestionarVenta(): void {
+    this.router.navigate(['gestionar-venta']);
+  }
+
+  /**
+   * @description Metodo encargado de direccionar al componente Gestionar persona
+   * @author Alberto David Puche Algarin
+   * @fecha 2019-12-20
+   */
+  public navegarGestionarPersona(): void {
+    this.router.navigate(['gestionar-persona']);
+  }
+
+  /**
    * @description Metodo encargado de direccionar al componente de gestionar comic
    * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
    */

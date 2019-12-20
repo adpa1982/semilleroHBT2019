@@ -20,7 +20,8 @@ export class GestionarComicComponent implements OnInit {
     /**
      * Atributo que contiene los controles del formulario
      */
-    public: FormGroup;
+    // public: FormGroup;
+    public gestionarComicForm: FormGroup;
 
     /**
      * Atributo que contendra la informacion del comic
